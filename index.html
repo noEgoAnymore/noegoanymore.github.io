@@ -66,6 +66,7 @@
     width: 100%;
     overflow: hidden;
     background: #e8e4dc;
+    transition: height 0.4s ease;
   }
 
   .carousel-track {
@@ -179,11 +180,11 @@
     <div class="item">
       <div class="carousel">
         <div class="carousel-track">
-          <img src="images/tank-1.jpeg" alt="Tank top">
-          <img src="images/tank-2.jpeg" alt="Tank top">
-          <img src="images/tank-3.jpeg" alt="Tank top">
-          <img src="images/tank-4.jpeg" alt="Tank top">
-          <img src="images/tank-5.jpeg" alt="Tank top">
+          <img src="images/tank-1.JPEG" alt="Tank top">
+          <img src="images/tank-2.JPEG" alt="Tank top">
+          <img src="images/tank-3.JPEG" alt="Tank top">
+          <img src="images/tank-4.JPEG" alt="Tank top">
+          <img src="images/tank-5.JPEG" alt="Tank top">
         </div>
         <button class="carousel-btn prev" aria-label="Previous"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
         <button class="carousel-btn next" aria-label="Next"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
@@ -200,10 +201,10 @@
     <div class="item">
       <div class="carousel">
         <div class="carousel-track">
-          <img src="images/bag-1.jpeg" alt="Felted bag">
-          <img src="images/bag-2.jpeg" alt="Felted bag">
-          <img src="images/bag-3.jpeg" alt="Felted bag">
-          <img src="images/bag-4.jpeg" alt="Felted bag">
+          <img src="images/bag-1.JPEG" alt="Felted bag">
+          <img src="images/bag-2.JPEG" alt="Felted bag">
+          <img src="images/bag-3.JPEG" alt="Felted bag">
+          <img src="images/bag-4.JPEG" alt="Felted bag">
         </div>
         <button class="carousel-btn prev" aria-label="Previous"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
         <button class="carousel-btn next" aria-label="Next"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
@@ -220,10 +221,10 @@
     <div class="item">
       <div class="carousel">
         <div class="carousel-track">
-          <img src="images/shorts-1.jpeg" alt="Patchwork shorts">
-          <img src="images/shorts-2.jpeg" alt="Patchwork shorts">
-          <img src="images/shorts-3.jpeg" alt="Patchwork shorts">
-          <img src="images/shorts-4.jpeg" alt="Patchwork shorts">
+          <img src="images/shorts-1.JPEG" alt="Patchwork shorts">
+          <img src="images/shorts-2.JPEG" alt="Patchwork shorts">
+          <img src="images/shorts-3.JPEG" alt="Patchwork shorts">
+          <img src="images/shorts-4.JPEG" alt="Patchwork shorts">
         </div>
         <button class="carousel-btn prev" aria-label="Previous"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
         <button class="carousel-btn next" aria-label="Next"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
@@ -240,9 +241,9 @@
     <div class="item">
       <div class="carousel">
         <div class="carousel-track">
-          <img src="images/book-1.jpeg" alt="Children's fabric book">
-          <img src="images/book-2.jpeg" alt="Children's fabric book">
-          <img src="images/book-3.jpeg" alt="Children's fabric book">
+          <img src="images/book-1.JPEG" alt="Children's fabric book">
+          <img src="images/book-2.JPEG" alt="Children's fabric book">
+          <img src="images/book-3.JPEG" alt="Children's fabric book">
         </div>
         <button class="carousel-btn prev" aria-label="Previous"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
         <button class="carousel-btn next" aria-label="Next"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
@@ -259,9 +260,9 @@
     <div class="item">
       <div class="carousel">
         <div class="carousel-track">
-          <img src="images/tee-1.jpeg" alt="Knitted tee">
-          <img src="images/tee-2.jpeg" alt="Knitted tee">
-          <img src="images/tee-3.jpeg" alt="Knitted tee">
+          <img src="images/tee-1.JPEG" alt="Knitted tee">
+          <img src="images/tee-2.JPEG" alt="Knitted tee">
+          <img src="images/tee-3.JPEG" alt="Knitted tee">
         </div>
         <button class="carousel-btn prev" aria-label="Previous"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
         <button class="carousel-btn next" aria-label="Next"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
@@ -289,11 +290,23 @@
     const total = imgs.length;
     let index = 0;
 
+    function setHeight() {
+      const h = imgs[index].getBoundingClientRect().height;
+      if (h) carousel.style.height = h + 'px';
+    }
+
     function goTo(n) {
       index = (n + total) % total;
       track.style.transform = `translateX(-${index * 100}%)`;
       counter.textContent = `${index + 1} / ${total}`;
+      setHeight();
     }
+
+    imgs.forEach(img => {
+      if (img.complete) setHeight();
+      else img.addEventListener('load', setHeight);
+    });
+    window.addEventListener('resize', setHeight);
 
     carousel.querySelector('.prev').addEventListener('click', () => goTo(index - 1));
     carousel.querySelector('.next').addEventListener('click', () => goTo(index + 1));
